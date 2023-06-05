@@ -1,6 +1,7 @@
 import cv2
 import numpy as np
 from keras.models import model_from_json
+import streamlit
 
 emotion_dict = {0: "Angry", 1: "Disgusted", 2: "Fearful", 3: "Happy", 4: "Neutral", 5: "Sad", 6: "Surprised"}
 json_file = open('Model/emotional_model.json', 'r')
@@ -9,10 +10,15 @@ json_file.close()
 emotional_model = model_from_json(loaded_model_json)
 
 emotional_model.load_weights("Model/emotional_model.h5")
-print("Loaded from Disk")
+print("Model Loaded From Disk")
 
-#cap = cv2.VideoCapture(0)
-cap = cv2.VideoCapture('Samples/Emotion_Sample_2.mp4')
+userIn = input("Do you proceed with WEB camera? (y/n)")
+
+if userIn == "y":
+    cap = cv2.VideoCapture(0)
+
+else:
+    cap = cv2.VideoCapture('Samples/Emotion_Sample_2.mp4')
 
 while True:
     ret, frame = cap.read()
